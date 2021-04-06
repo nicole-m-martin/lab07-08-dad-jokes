@@ -1,33 +1,33 @@
-const form = document.getElementById('createJoke');
-const ul = document.getElementById('jokes');
+const form = document.getElementById('searchJoke');
+const ul = document.getElementById('dadJokes');
 
 const appendJoke = (joke) => {
   const li = document.createElement('li');
-  li.textContent = `${joke.name}: ${joke.joke}`;
+  li.textContent = `${joke.joke}`;
   ul.appendChild(li);
 };
 
-form.addEventListener('submit', (event) => {
-  event.preventDefault();
+form.addEventListener('submit', (e) => {
+  e.preventDefault();
 
-  const fd = new FormData(form);
+  try {
+    const fd = new FormData(form);
 
-  fetch('/api/v1/jokes', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      name: fd.get('name'),
-      joke: fd.get('joke'),
-    }),
-  })
-    .then((res) => res.json())
-    .then(appendJoke);
+    const fetchJoke = async () =>
+      await fetch(`/api/v1/jokes/${fd.get('search')}`, {
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+        },
+        body: JSON.stringify({
+          joke: fd.get('joke'),
+        }),
+      });
+    const fetchString = JSON.stringify(fetchJoke());
+    appendJoke(fetchString);
+    console.log(fetchJoke);
+    // return fetchJoke();
+  } catch (err) {
+    // console.log(err.message);
+  }
 });
-
-fetch('/api/v1/jokes')
-  .then((res) => res.json())
-  .then((jokes) => {
-    jokes.forEach(appendJoke);
-  });
