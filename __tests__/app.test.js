@@ -24,7 +24,7 @@ describe('dad joke routes', () => {
     });
   });
 
-  it.skip('saves a fave dad joke', async () => {
+  it('saves a fave dad joke', async () => {
     const res = await request(app)
       .post(`/api/v1/favorites`)
       .send({ userName: 'test user', favoriteJoke: 'MZoOCQ7wcpb' });
