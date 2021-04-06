@@ -1,7 +1,7 @@
 const form = document.getElementById('createJoke');
 const ul = document.getElementById('jokes');
 
-const appendDog = (dog) => {
+const appendJoke = (joke) => {
   const li = document.createElement('li');
   li.textContent = `${joke.name}: ${joke.joke}`;
   ul.appendChild(li);
