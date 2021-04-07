@@ -7,27 +7,19 @@ const appendJoke = (joke) => {
   ul.appendChild(li);
 };
 
-form.addEventListener('submit', (e) => {
+const fetchJoke = async (fd) =>
+  await fetch(`/api/v1/jokes/${fd.get('search')}`, {
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
+    },
+  });
+
+form.addEventListener('submit', async (e) => {
   e.preventDefault();
 
-  try {
-    const fd = new FormData(form);
+  const fd = new FormData(form);
 
-    const fetchJoke = async () =>
-      await fetch(`/api/v1/jokes/${fd.get('search')}`, {
-        method: 'GET',
-        headers: {
-          Accept: 'application/json',
-        },
-        body: JSON.stringify({
-          joke: fd.get('joke'),
-        }),
-      });
-    const fetchString = JSON.stringify(fetchJoke());
-    appendJoke(fetchString);
-    console.log(fetchJoke);
-    // return fetchJoke();
-  } catch (err) {
-    // console.log(err.message);
-  }
+  console.log(fetchJoke());
+  const getAJoke = fetchJoke(fd);
 });
